@@ -5,15 +5,15 @@ import Button from "../Button";
 
 interface ModalProps {
   isOpen?: boolean;
-  onClose: () => {};
-  onSubmit: () => {};
+  onClose: () => void;
+  onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
   actionLabel: string;
   disabled?: boolean;
-  secondaryAction?: () => {};
-  secondaryLabel?: string;
+  secondaryAction?: () => void;
+  secondaryActionLabel?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -26,7 +26,7 @@ const Modal: React.FC<ModalProps> = ({
   actionLabel,
   disabled,
   secondaryAction,
-  secondaryLabel,
+  secondaryActionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({
       return;
     }
 
-    secondaryAction;
+    secondaryAction();
   }, [disabled, secondaryAction]);
 
   if (!isOpen) {
@@ -64,8 +64,14 @@ const Modal: React.FC<ModalProps> = ({
   }
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-neutral-800/70 outline-none focus:outline-none">
-        <div className="lg:h-auto md:h-auto relative mx-auto my-6 h-full w-full md:w-4/6 lg:w-3/6 xl:w-2/5">
+      <div
+        //onClick={onClose}
+        className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-neutral-800/70 outline-none focus:outline-none"
+      >
+        <div
+          //onClick={(e) => e.stopPropagation()}
+          className="relative mx-auto my-6 h-full w-full md:w-3/6 lg:w-3/6 xl:w-2/5 pt-20 md:pt-20 lg:pt-20"
+        >
           {/* CONTENT */}
           <div
             className={`translate h-full duration-300 ${showModal ? "translate-y-0" : "translate-y-full"} ${showModal ? "opacity-100" : "opacity-0"}`}
@@ -134,10 +140,10 @@ const Modal: React.FC<ModalProps> = ({
                     w-full
                     "
                 >
-                  {secondaryAction && secondaryLabel && (
+                  {secondaryAction && secondaryActionLabel && (
                     <Button
                       disabled={disabled}
-                      label={secondaryLabel}
+                      label={secondaryActionLabel}
                       onClick={handleSecondaryAction}
                     />
                   )}
@@ -147,6 +153,7 @@ const Modal: React.FC<ModalProps> = ({
                     onClick={handleSubmit}
                   />
                 </div>
+                {footer}
               </div>
             </div>
           </div>
