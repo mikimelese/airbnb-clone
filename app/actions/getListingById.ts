@@ -6,7 +6,7 @@ interface IParams {
 
 export default async function getListingById(params: IParams) {
   try {
-    const { listingId } = await params;
+    const { listingId } = params;
 
     if (!listingId) return null;
 
