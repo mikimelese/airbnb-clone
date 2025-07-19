@@ -66,7 +66,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     axios
       .post("/api/reservation", {
         totalPrice,
-        startDate: dateRange,
+        startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         listingId: listing?.id,
       })
@@ -86,10 +86,14 @@ const ListingClient: React.FC<ListingClientProps> = ({
 
   useEffect(() => {
     if (dateRange.startDate && dateRange.endDate) {
-      const dayCount = differenceInCalendarDays(
+      let dayCount = differenceInCalendarDays(
         dateRange.endDate,
         dateRange.startDate,
       );
+
+      if (dayCount === 0) {
+        dayCount = 1;
+      }
 
       if (dayCount && listing.price) {
         setTotalPrice(dayCount * listing.price);
