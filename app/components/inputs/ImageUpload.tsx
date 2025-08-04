@@ -31,6 +31,7 @@ const ImageUpload: React.FC<ImageUplodeProps> = ({ onChange, value }) => {
       }}
     >
       {({ open }) => {
+        if (!open) return null;
         return (
           <div
             onClick={() => open?.()}
